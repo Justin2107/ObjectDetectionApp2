@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: object-detection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: object-detection
+  template:
+    metadata:
+      labels:
+        app: object-detection
+    spec:
+      containers:
+      - name: object-detection
+        image: object-detection:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: FLICKR_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: flickr-secret
+              key: api-key
